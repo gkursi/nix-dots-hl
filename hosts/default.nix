@@ -1,12 +1,6 @@
 {
   box-a = {
     target = "192.168.8.100";
-    services = [ "searxng" ];
+    services = [ "searxng" "i2p" ];
   };
-
-  # box-b = {
-  #   target = "invalid-address-change-me";
-  #   services = [ "nginx" ];
-  #   tags = [ "public" ];
-  # };
 }
