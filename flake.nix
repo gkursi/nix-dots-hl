@@ -33,7 +33,7 @@
       mkHostModules =
         hostname:
         [
-          ./hosts/common.nix
+          (import ./hosts/common.nix hosts.${hostname})
           ./hosts/${hostname}/hardware-configuration.nix
           ./hosts/${hostname}/configuration.nix
 
