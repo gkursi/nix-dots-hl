@@ -43,15 +43,6 @@
         ++ map (service: ./services/${service}.nix) (hosts.${hostname}.services);
     in
     {
-      # for debugging
-      nixosConfigurations = nixpkgs.lib.genAttrs (builtins.attrNames hosts) (
-        hostname:
-        nixpkgs.lib.nixosSystem {
-          system = system_architecture;
-          modules = mkHostModules hostname;
-        }
-      );
-
       colmenaHive = colmena.lib.makeHive (
         {
           meta = {
