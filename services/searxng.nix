@@ -17,7 +17,7 @@ let
 in
 {
   sops.secrets.searxng_secret_key = {
-    sopsFile = ./secrets/searxng.yaml;
+    sopsFile = ../secrets/searxng.yaml;
   };
 
   systemd.services."arion-searxng".preStart = ''
@@ -28,10 +28,11 @@ in
   '';
 
   virtualisation.arion.projects.searxng.settings = {
-    projectName = "searxng";
+    project.name = "searxng";
+
     services.searxng.service = {
       image = "docker.io/searxng/searxng:latest";
-      ports = [ "127.0.0.1:8888:8080" ];
+      ports = [ "8080:8080" ];
       volumes = [ "${settingsPath}:/etc/searxng/settings.yml:ro" ];
       restart = "unless-stopped";
     };

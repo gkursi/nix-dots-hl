@@ -29,8 +29,9 @@ let
   '';
 in
 {
-  virtualisation.arion.projects.searxng.settings = {
-    projectName = "nginx";
+  virtualisation.arion.projects.nginx.settings = {
+    project.name = "nginx";
+
     services.nginx.service = {
       image = "docker.io/nginx:alpine";
       ports = [
