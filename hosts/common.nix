@@ -7,6 +7,5 @@
   virtualisation.podman.dockerSocket.enable = true;
   virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
 
-  # Use your username instead of `myuser`
   users.users.root.extraGroups = [ "podman" ];
 }

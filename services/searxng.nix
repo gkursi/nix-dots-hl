@@ -28,8 +28,6 @@ in
   '';
 
   virtualisation.arion.projects.searxng.settings = {
-    project.name = "searxng";
-
     services.searxng.service = {
       image = "docker.io/searxng/searxng:latest";
       ports = [ "8080:8080" ];
