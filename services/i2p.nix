@@ -14,12 +14,12 @@
 
       volumes = [
         "/etc/i2p/config:/i2p/.i2p"
-        "/etc/i2p/torrents:/i2psnark"
+        "/etc/i2p/torrents:/i2psnark:rw"
       ];
 
       environment = {
-          JVM_XMX = "512m";
-          EXT_PORT = 45675;
+        JVM_XMX = "512m";
+        EXT_PORT = 45675;
       };
     };
   };
