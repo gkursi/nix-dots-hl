@@ -1,6 +1,7 @@
 machine:
 
-{ pkgs, ... }: let
+{ pkgs, ... }:
+let
   utils = import ../lib/volume.nix;
   prefix = utils.getVolumePrefix machine "glance";
 
@@ -79,7 +80,7 @@ in
       restart = "unless-stopped";
       ports = [ "8081:8080" ];
       volumes = [
-        "${prefix}/glance/config:/app/config"
+        "${prefix}/glance:/app/config"
         "${config}:/app/config/glance.yml:ro"
       ];
 

@@ -14,10 +14,6 @@
       glance = {
         drive = 0;
       };
-
-      pihole = {
-        drive = 0;
-      };
     };
 
     drives = [ "/mnt/container" ];
