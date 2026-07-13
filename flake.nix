@@ -40,7 +40,9 @@
           arion.nixosModules.arion
           sops-nix.nixosModules.sops
         ]
-        ++ map (service: ./services/${service}.nix) (hosts.${hostname}.services);
+        ++ map (service: import ./services/${service}.nix hosts.${hostname}) (
+          builtins.attrNames hosts.${hostname}.services
+        );
     in
     {
       colmenaHive = colmena.lib.makeHive (

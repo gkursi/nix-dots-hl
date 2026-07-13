@@ -1,6 +1,10 @@
-{ pkgs, ... }:
-let
-  config = pkgs.writeText "" ''
+machine:
+
+{ pkgs, ... }: let
+  utils = import ../lib/volume.nix;
+  prefix = utils.getVolumePrefix machine "glance";
+
+  config = pkgs.writeText "glance-config.yml" ''
     theme:
       background-color: 0 0 16
       primary-color: 43 59 81
@@ -75,7 +79,7 @@ in
       restart = "unless-stopped";
       ports = [ "8081:8080" ];
       volumes = [
-        "/etc/glance/config:/app/config"
+        "${prefix}/glance/config:/app/config"
         "${config}:/app/config/glance.yml:ro"
       ];
 

@@ -1,4 +1,10 @@
-{
+machine:
+
+let
+  utils = import ../lib/volume.nix;
+  prefix = utils.getVolumePrefix machine "i2p";
+in
+{ ... }: {
   virtualisation.arion.projects.i2p.settings = {
     services.i2p.service = {
       image = "docker.io/geti2p/i2p:latest";
@@ -13,8 +19,8 @@
       ];
 
       volumes = [
-        "/etc/i2p/config:/i2p/.i2p"
-        "/etc/i2p/torrents:/i2psnark:rw"
+        "${prefix}/i2p/config:/i2p/.i2p"
+        "${prefix}/i2p/torrents:/i2psnark:rw"
       ];
 
       environment = {
