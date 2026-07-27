@@ -14,6 +14,8 @@
       glance = {
         drive = 0;
       };
+
+      redlib = {};
     };
 
     drives = [ "/mnt/container" ];

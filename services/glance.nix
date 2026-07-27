@@ -1,5 +1,4 @@
 machine:
-
 { pkgs, ... }:
 let
   utils = import ../lib/volume.nix;
