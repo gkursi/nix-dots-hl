@@ -16,6 +16,10 @@
       };
 
       redlib = {};
+
+      invidious = {
+        drive = 0;
+      };
     };
 
     drives = [ "/mnt/container" ];

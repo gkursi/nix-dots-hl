@@ -8,8 +8,8 @@ let
 in
 {
   sops.secrets = {
-    invidious_secret.sopsFile = secret_file;
-    invidious_companion_secret.sopsFile = secret_file;
+    invidious.sopsFile = secret_file;
+    companion.sopsFile = secret_file;
   };
 
   sops.templates."invidious.env".content = ''
@@ -71,7 +71,7 @@ in
 
     services.invidious-db.service = {
       image = "docker.io/library/postgres:14";
-      restart = "unless-stopeed";
+      restart = "unless-stopped";
 
       volumes = [
         "${prefix}/iv/postgres:/var/lib/postgresql/data"
