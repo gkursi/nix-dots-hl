@@ -1,6 +1,6 @@
 machine:
-
-{ config, ... }: let
+{ config, ... }:
+let
   utils = import ../lib/volume.nix;
   prefix = utils.getVolumePrefix machine "pihole";
   password = config.sops.secrets.pihole_admin_password.path;

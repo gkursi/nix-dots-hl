@@ -1,5 +1,4 @@
 machine:
-
 let
   utils = import ../lib/volume.nix;
   prefix = utils.getVolumePrefix machine "i2p";
