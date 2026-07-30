@@ -1,5 +1,4 @@
 machine:
-
 { config, ... }:
 {
   sops.secrets.searxng_secret_key = {
