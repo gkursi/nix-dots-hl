@@ -20,6 +20,11 @@
       invidious = {
         drive = 0;
       };
+
+      upsmon-host = {};
+      upsmon = {
+        host = "localhost";
+      };
     };
 
     drives = [ "/mnt/container" ];
