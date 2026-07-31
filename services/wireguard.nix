@@ -1,7 +1,11 @@
 machine:
 { ... }:
+let
+  props = import ../lib/props.nix;
+  secret_key = props.getProperty machine "wireguard" "private-key";
+in
 {
-  sops.secrets.wg = {
+  sops.secrets.${secret_key} = {
     sopsFile = ../secrets/wireguard.yaml;
     mode = "640";
     owner = "systemd-network";
@@ -19,11 +23,7 @@ machine:
 
     networks."50-wg0" = {
       matchConfig.Name = "wg0";
-
-      address = [
-        "fd31:bf08:57cb::7/128"
-        "192.168.0.1/32"
-      ];
+      address = props.getProperty machine "wireguard" "address";
     };
 
     netdevs."50-wg0" = {
@@ -45,23 +45,7 @@ machine:
         FirewallMark = 42;
       };
 
-      wireguardPeers = [
-        {
-          Endpoint = "45.135.194.63:51820";
-          PublicKey = "J4qnoibtcjitzCHv7+2LH0M2rkg/CE7uDTxP/v+ykhU=";
-
-          AllowedIPs = [
-            "fd31:bf08:57cb::9/128"
-            "192.168.0.2/32"
-          ];
-
-          # RouteTable can also be set in wireguardPeers
-          # RouteTable in wireguardConfig will then be ignored.
-          # RouteTable = 1000;
-
-          PersistentKeepalive = 20;
-        }
-      ];
+      wireguardPeers = props.getProperty machine "wireguard" "peers";
     };
   };
 }
