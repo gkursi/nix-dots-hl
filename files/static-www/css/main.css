@@ -1,0 +1,371 @@
+:root {
+    --box-w: 500px;
+    --box-w-alt: 150px;
+    --blur: 1.75rem;
+    --box-blur: calc(0.5 * var(--blur));
+    --glow: #ebdbb2;
+    --size: 12rem;
+    --font-size: 1.5;
+    --bg-blur: 3px;
+    --offset-height: 30vh;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    min-height: 101vh;
+}
+
+body {
+    overflow-x: visible;
+    width: 100%;
+    height: 100%;
+    min-height: 101vh;
+    color: #ebdbb2;
+    margin: 0;
+    padding: 0;
+    scrollbar-width: none;
+
+    background-color: #282828;
+    background-image: radial-gradient(
+        color-mix(in Oklch, var(--glow), #000 20%) 0.1px,
+        transparent 0.5px
+    );
+    background-position: -10px -10px;
+    background-size: 20px 20px;
+    background-attachment: fixed;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #b16286, #458588, #689d6a);
+    pointer-events: none;
+    z-index: 0;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(transparent 0.1px, #282828 0.5px);
+    background-position: -10px -10px;
+    background-size: 20px 20px;
+    background-attachment: fixed;
+    pointer-events: none;
+    z-index: 1;
+}
+
+body > * {
+    position: relative;
+    z-index: 2;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    font-family: "Inconsolata", monospace;
+    font-size: calc(20px * var(--font-size));
+    color: var(--glow);
+    /*border: 1px solid red;*/
+}
+
+p {
+    font-size: calc(18px * var(--font-size));
+}
+
+a {
+    font-size: calc(18px * var(--font-size));
+}
+
+h1 {
+    font-size: calc(24px * var(--font-size));
+    border-bottom: 1px solid currentColor;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: calc(20px * var(--font-size));
+    border-bottom: 1px solid currentColor;
+    margin-bottom: 20px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.box {
+    width: var(--box-w);
+
+    text-wrap: wrap;
+
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+
+    --glow-color: var(--glow);
+    --glow-size: calc(12.5px * var(--font-size));
+
+    --color: #00000000;
+    --shadow-color: color-mix(
+        in Oklch,
+        color-mix(in Oklch, var(--glow-color), transparent 100%),
+        #000 80%
+    );
+
+    --offset: calc(8px * var(--font-size));
+
+    background-color: color-mix(in Oklch, var(--color), transparent 95%);
+    border: 3px solid var(--color);
+
+    transition: 0.1s all;
+    box-shadow: var(--offset) var(--offset) var(--glow-size) 0px
+        var(--shadow-color);
+    border-radius: 0px;
+    background-color: #32302f;
+    z-index: 1;
+}
+
+.box:hover {
+    transition: 0.1s all;
+}
+
+.box-green {
+    --glow-color: #b8bb26;
+}
+
+.box-yellow {
+    --glow-color: #fabd2f;
+}
+
+.box-red {
+    --glow-color: #fb4934;
+}
+
+.box-purple {
+    --glow-color: #d3869b;
+}
+
+.box-aqua {
+    --glow-color: #8ec07c;
+}
+
+.box-blue {
+    --glow-color: #83a598;
+}
+
+.box-gray {
+    --glow-color: #928374;
+}
+
+.purple {
+    color: #d3869b;
+}
+
+.aqua {
+    color: #8ec07c;
+}
+
+.blue {
+    color: #83a598;
+}
+
+.green {
+    color: #b8bb26;
+}
+
+.yellow {
+    color: #fabd2f;
+}
+
+.red {
+    color: #fb4934;
+}
+
+.gray {
+    color: #928374;
+}
+
+.smallish {
+    font-size: calc(15px * var(--font-size));
+}
+
+.small {
+    font-size: calc(12px * var(--font-size));
+}
+
+.italic {
+    font-style: italic;
+}
+
+.strong {
+    font-weight: bold;
+    font-size: calc(10px * var(--font-size));
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+}
+
+.outer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.outer + .outer {
+    margin-top: 32px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    width: fit-content;
+}
+
+.container-center {
+    text-align: center;
+}
+
+.container-column {
+    flex-direction: column;
+    width: min(1100px, 100%);
+    box-sizing: border-box;
+}
+
+.col {
+    flex: 1;
+}
+
+.ascii {
+    margin: 0;
+    line-height: 1.1;
+    font-size: calc(11px * var(--font-size));
+}
+
+.text-center {
+    text-align: center;
+}
+
+.footer .container {
+    width: min(640px, 100%);
+}
+
+.footer p {
+    border-top: 1px solid #504945;
+    padding-top: 16px;
+}
+
+.container-services {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: min(1100px, 100%);
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container-services .col {
+    flex: 0 1 auto;
+    display: flex;
+}
+
+.container-services .box {
+    padding: 12px 14px;
+    margin-bottom: 0;
+}
+
+.service {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 110px;
+    text-decoration: none;
+    animation: fade-up 0.45s ease both;
+}
+
+.container-services .col:nth-child(1) .service {
+    animation-delay: 0.02s;
+}
+
+.container-services .col:nth-child(2) .service {
+    animation-delay: 0.08s;
+}
+
+.container-services .col:nth-child(3) .service {
+    animation-delay: 0.14s;
+}
+
+.container-services .col:nth-child(4) .service {
+    animation-delay: 0.2s;
+}
+
+.container-services .col:nth-child(5) .service {
+    animation-delay: 0.26s;
+}
+
+.container-services .col:nth-child(n + 6) .service {
+    animation-delay: 0.32s;
+}
+
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .service {
+        animation: none;
+    }
+}
+
+.service:hover {
+    border-color: var(--glow-color);
+    box-shadow: var(--offset) var(--offset) var(--glow-size) 0px
+        color-mix(in Oklch, var(--glow-color), #000 40%);
+}
+
+.service-name {
+    color: var(--glow-color);
+    font-size: calc(16px * var(--font-size));
+    font-weight: bold;
+}
+
+.service-desc {
+    margin-top: auto;
+}
+
+.placeholder {
+    border-style: dashed;
+}
+
+@media only screen and (max-width: 3000px) {
+    :root {
+        --font-size: 1;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    :root {
+        --box-w: 60vw;
+        --box-w-alt: 20vw;
+        --font-size: 0.9;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    :root {
+        --font-size: 0.6;
+    }
+}

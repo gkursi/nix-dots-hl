@@ -1,0 +1,16 @@
+{
+  "services": [
+    {
+      "name": "Search",
+      "url": "https://search.goobers.cloud/",
+      "description": "meowxng ~ privacy-respecting metasearch, powered by SearXNG",
+      "color": "purple"
+    },
+    {
+      "name": "more soon :3",
+      "description": "nothing here yet :3",
+      "color": "gray",
+      "placeholder": true
+    }
+  ]
+}

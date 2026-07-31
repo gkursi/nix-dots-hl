@@ -15,17 +15,23 @@
         drive = 0;
       };
 
-      redlib = { };
+      redlib = {};
 
       invidious = {
         drive = 0;
       };
 
-      upsmon-host = { };
+      static-www = {
+        drive = 0;
+      };
+
+      upsmon-host = {};
 
       upsmon = {
         host = "localhost";
       };
+
+      nginx = {};
 
       wireguard = {
         # decrypted from secrets/wireguard.yaml
