@@ -20,6 +20,12 @@ machine:
 
   users.users.root.extraGroups = [ "podman" ];
 
+  # iperf3
+  services.iperf3 = {
+    enable = true;
+    openFirewall = true;
+  };
+
   # static ip
   networking.useDHCP = false;
 

@@ -1,9 +1,15 @@
 {
   "services": [
     {
-      "name": "Search",
+      "name": "SearXNG",
       "url": "https://search.goobers.cloud/",
-      "description": "meowxng ~ privacy-respecting metasearch, powered by SearXNG",
+      "description": "privacy-respecting metasearch engine",
+      "color": "purple"
+    },
+    {
+      "name": "Redlib",
+      "url": "https://redlib.goobers.cloud/",
+      "description": "alternative reddit frontend",
       "color": "purple"
     },
     {
