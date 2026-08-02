@@ -25,7 +25,6 @@ in
     virtualHosts."search.goobers.cloud" = proxyLocalPort 8080;
     virtualHosts."redlib.goobers.cloud" = proxyLocalPort 8082;
     virtualHosts."goobers.cloud" = proxyLocalPort 8084;
-    virtualHosts."speedtest.goobers.cloud" = proxyLocalPort 5201;
 
     recommendedProxySettings = true;
     recommendedGzipSettings = true;
