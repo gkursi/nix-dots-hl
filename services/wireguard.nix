@@ -30,6 +30,7 @@ in
       netdevConfig = {
         Kind = "wireguard";
         Name = "wg0";
+        MTUBytes = 1384;
       };
 
       wireguardConfig = {
@@ -39,10 +40,6 @@ in
 
         # To automatically create routes for everything in AllowedIPs
         RouteTable = "main";
-
-        # FirewallMark marks all packets send and received by wg0
-        # with the number 42, which can be used to define policy rules on these packets.
-        FirewallMark = 42;
       };
 
       wireguardPeers = props.getProperty machine "wireguard" "peers";
