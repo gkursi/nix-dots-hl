@@ -18,8 +18,8 @@ machine:
         # Disable search engine indexing
         REDLIB_ROBOTS_DISABLE_INDEXING="off";
         # Set the Pushshift frontend for "removed" links
-        # REDLIB_PUSHSHIFT_FRONTEND="undelete.pullpush.io";
-        REDLIB_PUSHSHIFT_FRONTEND="";
+        REDLIB_PUSHSHIFT_FRONTEND="undelete.pullpush.io";
+        # REDLIB_PUSHSHIFT_FRONTEND="";
 
         # Default user settings
         # Set the default theme (options: system, light, dark, black, dracula, nord, laserwave, violet, gold, rosebox, gruvboxdark, gruvboxlight)
