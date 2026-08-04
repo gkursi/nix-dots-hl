@@ -18,4 +18,6 @@
   };
 
   system.stateVersion = "25.11";
+
+  services.iperf3.bind = "192.168.0.1";
 }

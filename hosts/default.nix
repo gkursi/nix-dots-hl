@@ -15,7 +15,7 @@
         drive = 0;
       };
 
-      # redlib = {};
+      redlib = {};
 
       invidious = {
         drive = 0;
