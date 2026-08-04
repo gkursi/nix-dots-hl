@@ -15,7 +15,7 @@
         drive = 0;
       };
 
-      redlib = {};
+      # redlib = {};
 
       invidious = {
         drive = 0;
@@ -25,13 +25,13 @@
         drive = 0;
       };
 
-      upsmon-host = {};
+      upsmon-host = { };
 
       upsmon = {
         host = "localhost";
       };
 
-      nginx = {};
+      nginx = { };
 
       wireguard = {
         # decrypted from secrets/wireguard.yaml
