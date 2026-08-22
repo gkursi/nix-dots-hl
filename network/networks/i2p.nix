@@ -6,7 +6,25 @@
       enableIPv6 = true;
       dataDir = "/mnt/container/i2pd";
       family = "goobers-cloud";
+      port = 11827;
+
+      proto.http = {
+        enable = true;
+        address = "0.0.0.0";
+        strictHeaders = false;
+      };
+
+      proto.httpProxy = {
+        enable = true;
+        address = "0.0.0.0";
+      };
     };
+
+    networking.firewall.allowedTCPPorts = [
+      7070
+      4444
+      11827
+    ];
 
     # we love the nixpkgs maintainers
     fileSystems."/var/lib/i2pd" = {
@@ -24,7 +42,9 @@
     };
 
     systemd.services.i2pd.serviceConfig.ExecStartPre = [
-      "+${pkgs.coreutils}/bin/install -m 0400 -o i2pd -g i2pd ${config.sops.secrets."i2p-family-key".path} /var/lib/i2pd/family/goobers-cloud.key"
+      "+${pkgs.coreutils}/bin/install -m 0400 -o i2pd -g i2pd ${
+        config.sops.secrets."i2p-family-key".path
+      } /var/lib/i2pd/family/goobers-cloud.key"
     ];
 
     systemd.tmpfiles.rules = [
@@ -38,17 +58,19 @@
     };
   };
 
-  moduleForHost = host: { ... }:
-  let
-    name = if host.name == "<root>" then "site_root" else host.name;
-  in
-  {
-    services.i2pd.inTunnels.${host.name} = {
-      keys = "${name}-keys.dat";
-      name = name;
-      port = host.port;
-      # nginx by default only proxies http, so other service types would break anyways
-      type = "http";
+  moduleForHost =
+    host:
+    { ... }:
+    let
+      name = if host.name == "<root>" then "site_root" else host.name;
+    in
+    {
+      services.i2pd.inTunnels.${host.name} = {
+        keys = "${name}-keys.dat";
+        name = name;
+        port = host.port;
+        # nginx by default only proxies http, so other service types would break anyways
+        type = "http";
+      };
     };
-  };
 }
