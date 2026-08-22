@@ -1,5 +1,5 @@
 {
-  setup = { ... }: {
+  setup = { config, pkgs, ... }: {
     services.i2pd = {
       enable = true;
       bandwidth = 16;
@@ -23,6 +23,10 @@
       '';
     };
 
+    systemd.services.i2pd.serviceConfig.ExecStartPre = [
+      "+${pkgs.coreutils}/bin/install -m 0400 -o i2pd -g i2pd ${config.sops.secrets."i2p-family-key".path} /var/lib/i2pd/family/goobers-cloud.key"
+    ];
+
     systemd.tmpfiles.rules = [
       "Z /mnt/container/i2pd 0700 i2pd i2pd - -"
     ];
@@ -31,7 +35,6 @@
       sopsFile = ../../secrets/goobers-cloud.key.json;
       format = "binary";
       owner = "root";
-      path = "/mnt/container/i2pd/family/goobers-cloud.key";
     };
   };
 
