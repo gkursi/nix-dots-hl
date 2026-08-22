@@ -32,17 +32,16 @@
 
       mkHostModules =
         hostname:
-        [
-          (import ./hosts/common.nix hosts.${hostname})
-          ./hosts/${hostname}/hardware-configuration.nix
-          ./hosts/${hostname}/configuration.nix
+          [
+            (import ./hosts/common.nix hosts.${hostname})
+            ./hosts/${hostname}/hardware-configuration.nix
+            ./hosts/${hostname}/configuration.nix
 
-          arion.nixosModules.arion
-          sops-nix.nixosModules.sops
-        ]
-        ++ map (service: import ./services/${service}.nix hosts.${hostname}) (
-          builtins.attrNames hosts.${hostname}.services
-        );
+            arion.nixosModules.arion
+            sops-nix.nixosModules.sops
+          ]
+          ++ (import ./services hosts.${hostname})
+          ++ (import ./network hosts.${hostname});
     in
     {
       colmenaHive = colmena.lib.makeHive (

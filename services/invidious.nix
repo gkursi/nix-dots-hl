@@ -29,6 +29,9 @@ in
       registration_enabled: false
       disable_abusable_api: true
       hmac_key: \"${config.sops.placeholder.invidious}\"
+
+      default_user_preferences:
+        quality: medium
     "
   '';
 

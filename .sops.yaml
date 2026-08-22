@@ -2,7 +2,7 @@ keys:
   - &me age1j3ta9xchvn9mmn29fh3vhc7svp6nrhua26vehwec0yplj6gyupdsugg4gy
   - &box_a age1w0u09cyv74ddd9qwugpkg689tq2fca0egnjw6jx89rrn9e4x03es2j0jq6
 creation_rules:
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini|key|csr)$
     key_groups:
     - age:
       - *me

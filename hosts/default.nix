@@ -7,9 +7,9 @@
         drive = 0;
       };
 
-      i2p = {
-        drive = 0;
-      };
+      # i2p = {
+      #   drive = 0;
+      # };
 
       glance = {
         drive = 0;
@@ -31,41 +31,65 @@
         host = "localhost";
       };
 
-      wireguard = {
-        # decrypted from secrets/wireguard.yaml
-        private-key = "wg";
+      # wireguard = {
+      #   # decrypted from secrets/wireguard.yaml
+      #   private-key = "wg";
 
-        address = [
-          "fd31:bf08:57cb::7/128"
-          "192.168.0.1/32"
-        ];
+      #   address = [
+      #     "fd31:bf08:57cb::7/128"
+      #     "192.168.0.1/32"
+      #   ];
 
-        peers = [
-          {
-            Endpoint = "45.135.194.63:51820";
-            PublicKey = "J4qnoibtcjitzCHv7+2LH0M2rkg/CE7uDTxP/v+ykhU=";
+      #   peers = [
+      #     {
+      #       Endpoint = "45.135.194.63:51820";
+      #       PublicKey = "J4qnoibtcjitzCHv7+2LH0M2rkg/CE7uDTxP/v+ykhU=";
 
-            AllowedIPs = [
-              "fd31:bf08:57cb::9/128"
-              "192.168.0.2/32"
-            ];
+      #       AllowedIPs = [
+      #         "fd31:bf08:57cb::9/128"
+      #         "192.168.0.2/32"
+      #       ];
 
-            PersistentKeepalive = 20;
-          }
-        ];
-      };
+      #       PersistentKeepalive = 20;
+      #     }
+      #   ];
+      # };
 
       # depends on wireguard
-      nginx = {
-        bind = "192.168.0.1";
+      # nginx = {
+      #   bind = "192.168.0.1";
 
-        hosts = {
-          "search.goobers.cloud" = 8080;
-          "redlib.goobers.cloud" = 8082;
-          "invidious.goobers.cloud" = 8083;
-          "goobers.cloud" = 8084;
-        };
+      #   hosts = {
+      #     "search.goobers.cloud" = 8080;
+      #     "redlib.goobers.cloud" = 8082;
+      #     "invidious.goobers.cloud" = 8083;
+      #     "goobers.cloud" = 8084;
+      #   };
+      # };
+    };
+
+    network = {
+      services = {
+        "search" = 8080;
+        "redlib" = 8082;
+        "invidious" = 8083;
+        "<root>" = 8084;
       };
+
+      networks = [
+        # wireguard and nginx depend on eachother
+        # (nginx binds to the wireguard interface)
+        (import ../network/networks/nginx.nix "192.168.0.1")
+        ((import ../network/networks/wireguard.nix) {
+          privateKeyId = "wg";
+          address = [
+            "fd31:bf08:57cb::7/128"
+            "192.168.0.1/32"
+          ];
+        })
+
+        (import ../network/networks/i2p.nix)
+      ];
     };
 
     drives = [ "/mnt/container" ];
