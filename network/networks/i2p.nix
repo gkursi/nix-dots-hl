@@ -75,6 +75,7 @@
         port = host.port;
         # nginx by default only proxies http, so other service types would break anyways
         type = "http";
+        address = "127.0.0.1";
       };
     };
 }
