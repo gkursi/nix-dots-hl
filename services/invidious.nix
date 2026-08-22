@@ -14,26 +14,21 @@ in
 
   sops.templates."invidious.env".content = ''
     INVIDIOUS_CONFIG="
-    db:
-      dbname: invidious
-      user: kemal
-      password: kemal
-      host: invidious-db
-      port: 5432
-    check_tables: true
-    invidious_companion:
-    # URL used for the internal communication between invidious and invidious companion
-    # There is no need to change that except if Invidious companion does not run on the same docker compose file.
-    - private_url: \"http://companion:8282/companion\"
-    # IT is NOT recommended to use the same key as HMAC KEY. Generate a new key!
-    # Use the key generated in the 2nd step
-    invidious_companion_key: \"${config.sops.placeholder.companion}\"
-    # external_port:
-    # domain:
-    # https_only: false
-    # statistics_enabled: false
-    # Use the key generated in the 1st step
-    hmac_key: \"${config.sops.placeholder.invidious}\"
+      db:
+        dbname: invidious
+        user: kemal
+        password: kemal
+        host: invidious-db
+        port: 5432
+      check_tables: true
+      invidious_companion:
+      - private_url: \"http://companion:8282/companion\"
+      invidious_companion_key: \"${config.sops.placeholder.companion}\"
+      external_port: 443
+      domain: invidious.goobers.cloud
+      registration_enabled: false
+      disable_abusable_api: true
+      hmac_key: \"${config.sops.placeholder.invidious}\"
     "
   '';
 
@@ -45,7 +40,7 @@ in
     services.invidious.service = {
       image = "quay.io/invidious/invidious";
       restart = "unless-stopped";
-      ports = [ "8083:3000" ];
+      ports = [ "127.0.0.1:8083:3000" ];
       env_file = [ config.sops.templates."invidious.env".path ];
       depends_on = [ "invidious-db" ];
 

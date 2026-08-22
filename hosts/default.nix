@@ -15,7 +15,7 @@
         drive = 0;
       };
 
-      # redlib = {};
+      redlib = {};
 
       invidious = {
         drive = 0;
@@ -30,8 +30,6 @@
       upsmon = {
         host = "localhost";
       };
-
-      nginx = { };
 
       wireguard = {
         # decrypted from secrets/wireguard.yaml
@@ -55,6 +53,18 @@
             PersistentKeepalive = 20;
           }
         ];
+      };
+
+      # depends on wireguard
+      nginx = {
+        bind = "192.168.0.1";
+
+        hosts = {
+          "search.goobers.cloud" = 8080;
+          "redlib.goobers.cloud" = 8082;
+          "invidious.goobers.cloud" = 8083;
+          "goobers.cloud" = 8084;
+        };
       };
     };
 

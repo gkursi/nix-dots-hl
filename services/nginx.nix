@@ -1,13 +1,18 @@
 machine:
 { ... }:
 let
+  props = import ../lib/props.nix;
+  hosts = props.getProperty machine "nginx" "hosts";
+  extraPorts = props.getPropertyOrDefault machine "nginx" "ports" [];
+  address = props.getProperty machine "nginx" "bind";
+
   mapLocalPort = port: port + 10000;
   mapLocalPorts = ports: map mapLocalPort ports;
 
   proxyLocalPort = port: {
     listen = [
       {
-        addr = "192.168.0.1";
+        addr = address;
         port = mapLocalPort port;
         ssl = false;
       }
@@ -22,14 +27,12 @@ in
   services.nginx = {
     enable = true;
 
-    virtualHosts."search.goobers.cloud" = proxyLocalPort 8080;
-    virtualHosts."redlib.goobers.cloud" = proxyLocalPort 8082;
-    virtualHosts."goobers.cloud" = proxyLocalPort 8084;
+    virtualHosts = builtins.mapAttrs (name: value: proxyLocalPort value) hosts;
 
     recommendedProxySettings = true;
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
   };
 
-  networking.firewall.interfaces."wg0".allowedTCPPorts = [ 80 443 ] ++ mapLocalPorts [ 8080 8082 8084 5201 ];
+  networking.firewall.interfaces."wg0".allowedTCPPorts = [ 80 443 ] ++ mapLocalPorts ([ 5201 ] ++ extraPorts ++ builtins.attrValues hosts);
 }

@@ -3,13 +3,19 @@
     {
       "name": "SearXNG",
       "url": "https://search.goobers.cloud/",
-      "description": "privacy-respecting metasearch engine",
+      "description": "metasearch engine",
       "color": "aqua"
     },
     {
       "name": "Redlib",
       "url": "https://redlib.goobers.cloud/",
       "description": "alternative reddit frontend",
+      "color": "aqua"
+    },
+    {
+      "name": "Invidious",
+      "url": "https://invidious.goobers.cloud/",
+      "description": "alternative youtube frontend",
       "color": "aqua"
     },
     {
