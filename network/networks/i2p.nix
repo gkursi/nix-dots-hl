@@ -26,6 +26,10 @@
       11827
     ];
 
+    networking.firewall.allowedUDPPorts = [
+      11827
+    ];
+
     # we love the nixpkgs maintainers
     fileSystems."/var/lib/i2pd" = {
       device = "/mnt/container/i2pd";
