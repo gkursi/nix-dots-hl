@@ -26,26 +26,6 @@ machine:
     openFirewall = true;
   };
 
-  # static ip
-  networking.useDHCP = false;
-
-  systemd.network.enable = true;
-  systemd.network.networks."common-network" = {
-    address = [
-      "${machine.desiredIp or machine.target}/24"
-    ];
-
-    routes = [
-      { Gateway = "fe80::1"; }
-      { Gateway = "192.168.8.1"; }
-    ];
-
-    linkConfig = {
-      RequiredForOnline = "routable";
-      ActivationPolicy = "up";
-    };
-  };
-
   environment.systemPackages = [
     pkgs.vim
   ];
@@ -64,8 +44,8 @@ machine:
   };
 
   users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK3SZTiXahBcitMzd1gRo2B37B2zJs+YHiyW7OJxprxr qweru@archlinux"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEB8MtwQ8Zwf18sANLg2YuPQvILdtMvFR1oVEc233N9K"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBoBdFBX4Vlh7D9g13MiNLmHsK/fPKAmIP69kaWL7I8l"
   ];
 
   # fail2ban

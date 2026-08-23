@@ -28,20 +28,21 @@
     }:
     let
       system_architecture = "x86_64-linux";
-      hosts = import ./hosts;
+      scopes = import ./hosts;
 
       mkHostModules =
-        hostname:
-          [
-            (import ./hosts/common.nix hosts.${hostname})
-            ./hosts/${hostname}/hardware-configuration.nix
-            ./hosts/${hostname}/configuration.nix
+        scope: hostname:
+        [
+          (import ./hosts/common.nix scopes.${scope}.${hostname})
+          (import ./hosts/${scope}/common.nix scopes.${scope}.${hostname})
+          ./hosts/${scope}/${hostname}/hardware-configuration.nix
+          ./hosts/${scope}/${hostname}/configuration.nix
 
-            arion.nixosModules.arion
-            sops-nix.nixosModules.sops
-          ]
-          ++ (import ./services hosts.${hostname})
-          ++ (import ./network hosts.${hostname});
+          arion.nixosModules.arion
+          sops-nix.nixosModules.sops
+        ]
+        ++ (import ./services scopes.${scope}.${hostname})
+        ++ (import ./network scopes.${scope}.${hostname});
     in
     {
       colmenaHive = colmena.lib.makeHive (
@@ -50,11 +51,14 @@
             nixpkgs = import nixpkgs { system = system_architecture; };
           };
         }
-        // nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: {
-          deployment.targetHost = hosts.${hostname}.target;
-          deployment.tags = hosts.${hostname}.tags or [ ];
-          imports = mkHostModules hostname;
-        })
+        // builtins.foldl' (
+          acc: scope:
+          acc // nixpkgs.lib.genAttrs (builtins.attrNames scopes.${scope}) (hostname: {
+            deployment.targetHost = scopes.${scope}.${hostname}.target;
+            deployment.tags = scopes.${scope}.${hostname}.tags or [ ];
+            imports = mkHostModules scope hostname;
+          })
+        ) {} (builtins.attrNames scopes)
       );
     };
 }
