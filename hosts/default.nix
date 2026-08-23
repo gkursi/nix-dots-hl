@@ -8,10 +8,6 @@
           drive = 0;
         };
 
-        # i2p = {
-        #   drive = 0;
-        # };
-
         glance = {
           drive = 0;
         };
@@ -31,30 +27,6 @@
         upsmon = {
           host = "localhost";
         };
-
-        # wireguard = {
-        #   # decrypted from secrets/wireguard.yaml
-        #   private-key = "wg";
-
-        #   address = [
-        #     "fd31:bf08:57cb::7/128"
-        #     "192.168.0.1/32"
-        #   ];
-
-        #   peers = [
-        #     {
-        #       Endpoint = "45.135.194.63:51820";
-        #       PublicKey = "J4qnoibtcjitzCHv7+2LH0M2rkg/CE7uDTxP/v+ykhU=";
-
-        #       AllowedIPs = [
-        #         "fd31:bf08:57cb::9/128"
-        #         "192.168.0.2/32"
-        #       ];
-
-        #       PersistentKeepalive = 20;
-        #     }
-        #   ];
-        # };
 
         # depends on wireguard
         # nginx = {
@@ -105,7 +77,17 @@
       gateway = "195.10.226.1";
       gateway6 = "2a01:bc2:1::1";
 
-      services = { };
+      services = {
+        wireguard-edge = {
+          # decrypted from secrets/wireguard-edge.yaml
+          private-key = "wireguard-edge-24firede";
+
+          address = [
+            "fd31:bf08:57cb::7/128"
+            "192.168.0.3/32"
+          ];
+        };
+      };
 
       network = {
         services = { };

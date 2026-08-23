@@ -2,18 +2,17 @@ machine:
 { ... }:
 let
   props = import ../lib/props.nix;
-  secret_key = props.getProperty machine "wireguard" "private-key";
+  secret_key = props.getProperty machine "wireguard-edge" "private-key";
+  address = props.getProperty machine "wireguard-edge" "address";
 in
 {
   sops.secrets.${secret_key} = {
-    sopsFile = ../secrets/wireguard.yaml;
+    sopsFile = ../secrets/wireguard-edge.yaml;
     mode = "640";
     owner = "systemd-network";
     restartUnits = [ "systemd-networkd.service" ];
     path = "/etc/wireguard";
   };
-
-  # sops.templates."wg".content = config.sops.placeholder.wg;
 
   networking.firewall.allowedUDPPorts = [ 51820 ];
   networking.useNetworkd = true;
@@ -23,7 +22,7 @@ in
 
     networks."50-wg0" = {
       matchConfig.Name = "wg0";
-      address = props.getProperty machine "wireguard" "address";
+      address = address;
     };
 
     netdevs."50-wg0" = {
@@ -42,7 +41,15 @@ in
         RouteTable = "main";
       };
 
-      wireguardPeers = props.getProperty machine "wireguard" "peers";
+      wireguardPeers = [
+        {
+          PublicKey = "A4yN7pYdjBxtn6Es2CfinMCP3Ay8SiSzWANVlaMpXD4=";
+
+          AllowedIPs = [
+            "192.168.0.1/32"
+          ];
+        }
+      ];
     };
   };
 }

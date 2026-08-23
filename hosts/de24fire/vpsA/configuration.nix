@@ -6,7 +6,7 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
 
-  networking.hostName = "wireguarderer2"; # Define your hostname.
+  networking.hostName = "wireguarderer2";
   time.timeZone = "Europe/Amsterdam";
 
   system.activationScripts.a = {
@@ -15,5 +15,5 @@
     '';
   };
 
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "25.11";
 }
