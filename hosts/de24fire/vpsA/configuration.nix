@@ -11,7 +11,7 @@
 
   system.activationScripts.a = {
     text = ''
-      mkdir /mnt/container
+      mkdir -p /mnt/container
     '';
   };
 
