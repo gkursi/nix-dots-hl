@@ -1,3 +1,6 @@
+let
+  i2pPort = 11827;
+in
 {
   local = {
     boxA = {
@@ -27,18 +30,6 @@
         upsmon = {
           host = "localhost";
         };
-
-        # depends on wireguard
-        # nginx = {
-        #   bind = "192.168.0.1";
-
-        #   hosts = {
-        #     "search.goobers.cloud" = 8080;
-        #     "redlib.goobers.cloud" = 8082;
-        #     "invidious.goobers.cloud" = 8083;
-        #     "goobers.cloud" = 8084;
-        #   };
-        # };
       };
 
       network = {
@@ -50,18 +41,17 @@
         };
 
         networks = [
-          # wireguard and nginx depend on eachother
-          # (nginx binds to the wireguard interface)
-          (import ../network/networks/nginx.nix "192.168.0.1")
           ((import ../network/networks/wireguard.nix) {
             privateKeyId = "wg";
             address = [
               "fd31:bf08:57cb::7/128"
               "192.168.0.1/32"
+              "192.168.0.10/32"
             ];
           })
 
-          (import ../network/networks/i2p.nix)
+          (import ../network/networks/nginx.nix "192.168.0.1")
+          (import ../network/networks/i2p.nix "195.10.226.122" "wg0" i2pPort)
         ];
       };
 
@@ -83,9 +73,21 @@
           private-key = "wireguard-edge-24firede";
 
           address = [
-            "fd31:bf08:57cb::7/128"
             "192.168.0.3/32"
           ];
+
+          allowedAddress = [
+            "192.168.0.10/32"
+          ];
+        };
+
+        nat = {
+          srcInterface = "eth0";
+          srcPort = i2pPort;
+
+          dstInterface = "wg0";
+          dstAddress = "192.168.0.10";
+          dstPort = i2pPort;
         };
       };
 

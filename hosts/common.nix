@@ -1,11 +1,13 @@
 machine:
 
 {
+  config,
   pkgs,
   ...
 }:
 {
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+
 
   virtualisation = {
     docker.enable = false;
@@ -52,7 +54,7 @@ machine:
   services.fail2ban = {
     enable = true;
     bantime = "24h";
-    maxretry = 2;
+    maxretry = 1;
 
     ignoreIP = [
       "10.0.0.0/8"
@@ -66,5 +68,19 @@ machine:
       maxtime = "168h"; # 1 week
       overalljails = true;
     };
+
+    jails.DEFAULT.settings.action = ''
+      %(action_)s
+      %(action_abuseipdb)s[abuseipdb_apikey="`cat ${config.sops.secrets.abuseipdb_apikey.path}`", abuseipdb_category="18,22"]
+    '';
   };
+
+  sops.secrets.abuseipdb_apikey = {
+    sopsFile = ../secrets/abuseipdb.yaml;
+  };
+
+  systemd.services.systemd-networkd.serviceConfig.ReadOnlyPaths = [
+    "/run/secrets.d"
+    "/run/secrets"
+  ];
 }

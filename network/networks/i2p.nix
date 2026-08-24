@@ -1,12 +1,11 @@
-{
+publicAddress: interface: port: {
   setup = { config, pkgs, ... }: {
     services.i2pd = {
       enable = true;
       bandwidth = 16;
       enableIPv6 = true;
-      dataDir = "/mnt/container/i2pd";
       family = "goobers-cloud";
-      port = 11827;
+      port = port;
 
       proto.http = {
         enable = true;
@@ -18,16 +17,19 @@
         enable = true;
         address = "0.0.0.0";
       };
+
+      address = publicAddress;
+      ifname4 = interface;
     };
 
     networking.firewall.allowedTCPPorts = [
       7070
       4444
-      11827
+      port
     ];
 
     networking.firewall.allowedUDPPorts = [
-      11827
+      port
     ];
 
     # we love the nixpkgs maintainers
