@@ -41,8 +41,7 @@
           arion.nixosModules.arion
           sops-nix.nixosModules.sops
         ]
-        ++ (import ./services scopes.${scope}.${hostname})
-        ++ (import ./network scopes.${scope}.${hostname});
+        ++ (import ./modules scopes.${scope}.${hostname});
     in
     {
       colmenaHive = colmena.lib.makeHive (

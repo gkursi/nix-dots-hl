@@ -1,14 +1,13 @@
-machine:
+cfg:
 { pkgs, ... }:
 let
   passwd = pkgs.writeText "ups-passwd.txt" "meow";
-  server = (import ../lib/props.nix).getProperty machine "upsmon" "host";
 in
 {
   power.ups = {
     upsmon = {
       monitor."UPS-1" = {
-        system = "UPS-1@${server}";
+        system = "UPS-1@${cfg.host}";
         powerValue = 1;
         user = "admin";
         passwordFile = "${passwd}";

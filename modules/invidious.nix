@@ -1,9 +1,6 @@
-machine:
+inv:
 { config, ... }:
 let
-  utils = import ../lib/volume.nix;
-  prefix = utils.getVolumePrefix machine "invidious";
-
   secret_file = ../secrets/invidious.yaml;
 in
 {
@@ -63,7 +60,7 @@ in
       hostStoreAsReadOnly = true;
 
       volumes = [
-        "${prefix}/cache:/var/tmp/youtubei.js:rw"
+        "${inv.drive}/cache:/var/tmp/youtubei.js:rw"
       ];
     };
 
@@ -72,9 +69,9 @@ in
       restart = "unless-stopped";
 
       volumes = [
-        "${prefix}/iv/postgres:/var/lib/postgresql/data"
-        "${prefix}/iv/config/sql:/config/sql"
-        "${prefix}/iv/docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh"
+        "${inv.drive}/iv/postgres:/var/lib/postgresql/data"
+        "${inv.drive}/iv/config/sql:/config/sql"
+        "${inv.drive}/iv/docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh"
       ];
 
       environment = {

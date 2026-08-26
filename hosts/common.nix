@@ -1,5 +1,4 @@
 machine:
-
 {
   config,
   pkgs,
@@ -7,7 +6,6 @@ machine:
 }:
 {
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-
 
   virtualisation = {
     docker.enable = false;
@@ -46,8 +44,8 @@ machine:
   };
 
   users.users.root.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEB8MtwQ8Zwf18sANLg2YuPQvILdtMvFR1oVEc233N9K"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBoBdFBX4Vlh7D9g13MiNLmHsK/fPKAmIP69kaWL7I8l"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIVBvzF8TwDN1IDX5A6/RMf0DPIEo9wTsXkuUyBTq8Te"
   ];
 
   # fail2ban
@@ -83,4 +81,10 @@ machine:
     "/run/secrets.d"
     "/run/secrets"
   ];
+
+  # acme
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "itsqweru@proton.me";
+  };
 }

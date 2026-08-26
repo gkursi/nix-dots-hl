@@ -1,8 +1,6 @@
-machine:
+pihole:
 { config, ... }:
 let
-  utils = import ../lib/volume.nix;
-  prefix = utils.getVolumePrefix machine "pihole";
   password = config.sops.secrets.pihole_admin_password.path;
 in
 {
@@ -29,7 +27,7 @@ in
       ];
 
       volumes = [
-        "${prefix}/pihole:/etc/pihole"
+        "${pihole.drive}/pihole:/etc/pihole"
         "${password}:/run/pihole/secret"
       ];
 
