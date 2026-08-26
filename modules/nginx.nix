@@ -33,7 +33,8 @@ let
     };
 
   # for each hostname, proxies requests on the incoming port to the given local port
-  mkUpstreamProxy = address: hosts: builtins.mapAttrs (hostname: port: proxyLocalPort address port) hosts;
+  mkUpstreamProxy =
+    address: hosts: builtins.mapAttrs (hostname: port: proxyLocalPort address port) hosts;
   mkMergeProxy = address: hosts: builtins.mapAttrs (hostname: port: proxyToPort address port) hosts;
 in
 {

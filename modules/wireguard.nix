@@ -12,8 +12,8 @@ wireguardConfig:
   networking.useNetworkd = true;
 
   networking.firewall.interfaces."wg0" = {
-    allowedTCPPorts = wireguardConfig.tcpPorts or [];
-    allowedUDPPorts = wireguardConfig.udpPorts or [];
+    allowedTCPPorts = wireguardConfig.tcpPorts;
+    allowedUDPPorts = wireguardConfig.udpPorts;
   };
 
   systemd.network = {
@@ -40,12 +40,15 @@ wireguardConfig:
         RouteTable = "main";
       };
 
-      wireguardPeers =
-        map (peer: {
+      wireguardPeers = map (
+        peer:
+        {
           Endpoint = if peer.address or null != null then "${peer.address}:51820" else null;
           PublicKey = peer.key;
-        } // (if peer.keepalive or false then { PersistentKeepalive = 20; } else {}))
-        wireguardConfig.peers;
+          AllowedIPs = peer.allowed;
+        }
+        // (if peer.keepalive or false then { PersistentKeepalive = 20; } else { })
+      ) wireguardConfig.peers;
     };
   };
 }

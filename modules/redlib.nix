@@ -1,65 +1,64 @@
-machine:
-{ ... }: {
+machine: { ... }: {
   virtualisation.arion.projects.redlib.settings = {
     services.redlib.service = {
       image = "ghcr.io/evrial/redlib:latest";
       restart = "unless-stopped";
 
       ports = [
-        "8082:8080"
+        "127.0.0.1:8082:8080"
       ];
 
       environment = {
         # Instance-specific settings
         # Enable SFW-only mode for the instance
-        REDLIB_SFW_ONLY="off";
+        REDLIB_SFW_ONLY = "off";
         # Set a banner message for the instance
-        REDLIB_BANNER="meow";
+        REDLIB_BANNER = "meow";
         # Disable search engine indexing
-        REDLIB_ROBOTS_DISABLE_INDEXING="off";
+        REDLIB_ROBOTS_DISABLE_INDEXING = "off";
         # Set the Pushshift frontend for "removed" links
-        REDLIB_PUSHSHIFT_FRONTEND="undelete.pullpush.io";
+        REDLIB_PUSHSHIFT_FRONTEND = "undelete.pullpush.io";
         # REDLIB_PUSHSHIFT_FRONTEND="";
 
         # Default user settings
         # Set the default theme (options: system, light, dark, black, dracula, nord, laserwave, violet, gold, rosebox, gruvboxdark, gruvboxlight)
-        REDLIB_DEFAULT_THEME="gruvboxdark";
+        REDLIB_DEFAULT_THEME = "gruvboxdark";
         # Set the default front page (options: default, popular, all)
-        REDLIB_DEFAULT_FRONT_PAGE="default";
+        REDLIB_DEFAULT_FRONT_PAGE = "default";
         # Set the default layout (options: card, clean, compact)
-        REDLIB_DEFAULT_LAYOUT="card";
+        REDLIB_DEFAULT_LAYOUT = "card";
         # Enable wide mode by default
-        REDLIB_DEFAULT_WIDE="off";
+        REDLIB_DEFAULT_WIDE = "off";
         # Set the default post sort method (options: hot, new, top, rising, controversial)
-        REDLIB_DEFAULT_POST_SORT="hot";
+        REDLIB_DEFAULT_POST_SORT = "hot";
         # Set the default comment sort method (options: confidence, top, new, controversial, old)
-        REDLIB_DEFAULT_COMMENT_SORT="confidence";
+        REDLIB_DEFAULT_COMMENT_SORT = "confidence";
         # Enable blurring Spoiler content by default
-        REDLIB_DEFAULT_BLUR_SPOILER="on";
+        REDLIB_DEFAULT_BLUR_SPOILER = "on";
         # Enable showing NSFW content by default
-        REDLIB_DEFAULT_SHOW_NSFW="off";
+        REDLIB_DEFAULT_SHOW_NSFW = "off";
         # Enable blurring NSFW content by default
-        REDLIB_DEFAULT_BLUR_NSFW="off";
+        REDLIB_DEFAULT_BLUR_NSFW = "off";
         # Enable HLS video format by default
-        REDLIB_DEFAULT_USE_HLS="off";
+        REDLIB_DEFAULT_USE_HLS = "off";
         # Hide HLS notification by default
-        REDLIB_DEFAULT_HIDE_HLS_NOTIFICATION="off";
+        REDLIB_DEFAULT_HIDE_HLS_NOTIFICATION = "off";
         # Disable autoplay videos by default
-        REDLIB_DEFAULT_AUTOPLAY_VIDEOS="off";
+        REDLIB_DEFAULT_AUTOPLAY_VIDEOS = "off";
         # Define a default list of subreddit subscriptions (format: sub1+sub2+sub3)
-        REDLIB_DEFAULT_SUBSCRIPTIONS="selfhosted+anarchy101+minecraftclients+nixos+teenagersbutcode+antimemes+piracy+196";
+        REDLIB_DEFAULT_SUBSCRIPTIONS = "selfhosted+anarchy101+minecraftclients+nixos+teenagersbutcode+antimemes+piracy+196";
         # Define a default list of subreddit filters (format: sub1+sub2+sub3)
-        REDLIB_DEFAULT_FILTERS="pics";
+        REDLIB_DEFAULT_FILTERS = "pics";
         # Hide awards by default
-        REDLIB_DEFAULT_HIDE_AWARDS="off";
+        REDLIB_DEFAULT_HIDE_AWARDS = "off";
         # Hide sidebar and summary
-        REDLIB_DEFAULT_HIDE_SIDEBAR_AND_SUMMARY="off";
+        REDLIB_DEFAULT_HIDE_SIDEBAR_AND_SUMMARY = "off";
         # Disable the confirmation before visiting Reddit
-        REDLIB_DEFAULT_DISABLE_VISIT_REDDIT_CONFIRMATION="off";
+        REDLIB_DEFAULT_DISABLE_VISIT_REDDIT_CONFIRMATION = "off";
         # Hide score by default
-        REDLIB_DEFAULT_HIDE_SCORE="off";
+        REDLIB_DEFAULT_HIDE_SCORE = "off";
         # Enable fixed navbar by default
-        REDLIB_DEFAULT_FIXED_NAVBAR="on";
+        REDLIB_DEFAULT_FIXED_NAVBAR = "on";
       };
 
       user = "nobody";
@@ -73,6 +72,6 @@ machine:
       };
     };
 
-    networks.redlib = {};
+    networks.redlib = { };
   };
 }
