@@ -16,26 +16,28 @@ let
   };
 
   proxyToPort =
-    srcAddr: destAddr: port:
+    srcAddr: dstAddr: dstPort:
     let
       enableTls = nginxConfig.useTls or false;
     in
     {
       forceSSL = enableTls;
       enableACME = enableTls;
-      kTLS = enableTls;
+      # kTLS = enableTls;
 
       listenAddresses = [ srcAddr ];
 
       locations."/" = {
-        proxyPass = "${destAddr}:${port}";
+        proxyPass = "${dstAddr}:${toString dstPort}";
       };
     };
 
   # for each hostname, proxies requests on the incoming port to the given local port
   mkUpstreamProxy =
     address: hosts: builtins.mapAttrs (hostname: port: proxyLocalPort address port) hosts;
-  mkMergeProxy = address: hosts: builtins.mapAttrs (hostname: port: proxyToPort address port) hosts;
+  mkMergeProxy =
+    srcAddress: dstAddress: hosts:
+    builtins.mapAttrs (hostname: port: proxyToPort srcAddress dstAddress port) hosts;
 in
 {
   services.nginx = {
@@ -50,4 +52,9 @@ in
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
   };
+
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 }

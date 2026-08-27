@@ -43,7 +43,6 @@ let
 
                 address = [
                   "${self.local.boxA.dns."boxA.local.wg"}/32"
-                  "${self.local.boxA.dns."boxA-pub.local.wg"}/32"
                 ];
 
                 peers = [
@@ -56,10 +55,8 @@ let
 
                   {
                     address = "45.135.194.63";
-                    #allowed = [ self.pfCloud.vps1.dns."vps1.pfcloud.wg" ];
-                    #key = self.pfCloud.vps1.modules.wireguard.publicKey;
-                    allowed = [ "192.168.0.2" ];
-                    key = "J4qnoibtcjitzCHv7+2LH0M2rkg/CE7uDTxP/v+ykhU=";
+                    allowed = [ self.pfCloud.vps1.dns."vps1.pfcloud.wg" ];
+                    key = self.pfCloud.vps1.modules.wireguard.publicKey;
                     keepalive = true;
                   }
                 ];
@@ -92,7 +89,7 @@ let
               # each host has its own port
               hosts =
                 gen:
-                gen.upstream self.local.boxA.dns."boxA.local.wg" {
+                gen.upstream "192.168.0.1" {
                   "search.goobers.cloud" = 8080;
                   "redlib.goobers.cloud" = 8082;
                   "invidious.goobers.cloud" = 8083;
@@ -105,7 +102,6 @@ let
 
           dns = {
             "boxA.local.wg" = "192.168.0.1";
-            "boxA-pub.local.wg" = "192.168.0.10";
           };
 
           drives = {
@@ -117,8 +113,8 @@ let
 
     de24fire = {
       vpsA = {
+        mac = "bc:24:11:b5:2e:94";
         target = "195.10.226.122";
-        # 24fire specific
         target6 = "2a01:bc2:1:fda0::";
         gateway = "195.10.226.1";
         gateway6 = "2a01:bc2:1::1";
@@ -143,7 +139,7 @@ let
 
               peers = [
                 {
-                  allowed = [ self.local.boxA.dns."boxA-pub.local.wg" ];
+                  allowed = [ self.local.boxA.dns."boxA.local.wg" ];
                   key = self.local.boxA.modules.wireguard.publicKey;
                 }
               ];
@@ -161,52 +157,65 @@ let
               sourcePort = i2pPort;
 
               destinationInterface = "wg0";
-              destinationAddress = self.local.boxA.dns."boxA-pub.local.wg";
+              destinationAddress = self.local.boxA.dns."boxA.local.wg";
               destinationPort = i2pPort;
             };
         };
       };
     };
 
-    # pfCloud = {
-    #   vps1 = {
-    #     modules = {
-    #       wireguard = {
-    #         privateKey = "wireguard-edge-pfcloud";
-    #         publicKey = "J4qnoibtcjitzCHv7+2LH0M2rkg/CE7uDTxP/v+ykhU=";
+    pfCloud = {
+      vps1 = {
+        mac = "00:16:3e:3b:33:c9";
+        target = "45.135.194.63";
+        target6 = "2a14:7c2:1db9::1";
+        gateway = "45.135.194.1";
+        gateway6 = "2a14:7c2::1";
 
-    #         address = [
-    #           "${self.pfCloud.vps1.dns."vps1.pfcloud.wg"}/32"
-    #         ];
+        modules = {
+          wireguard = {
+            privateKey = "wireguard-edge-pfcloud";
+            publicKey = "I90CllIbEBKcg+wb02GDcvZEy+1x4xIsDNBXCTq/Vms=";
 
-    #         peers = [
-    #           {
-    #             allowed = [ self.local.boxA.dns."boxA.local.wg" ];
-    #             key = self.local.boxA.modules.wireguard.publicKey;
-    #           }
-    #         ];
+            address = [
+              "${self.pfCloud.vps1.dns."vps1.pfcloud.wg"}/32"
+            ];
 
-    #         tcpPorts = [ 8080 8082 8083 8084 ];
-    #       };
+            peers = [
+              {
+                allowed = [ self.local.boxA.dns."boxA.local.wg" ];
+                key = self.local.boxA.modules.wireguard.publicKey;
+              }
+            ];
 
-    #       nginx = {
-    #         # all hosts are merged into a single port
-    #         hosts = gen: gen.merge {
-    #           "search.goobers.cloud" = 8080;
-    #           "redlib.goobers.cloud" = 8082;
-    #           "invidious.goobers.cloud" = 8083;
-    #           "goobers.cloud" = 8084;
-    #         };
+            tcpPorts = [
+              8080
+              8082
+              8083
+              8084
+            ];
+          };
 
-    #         useTls = true; # this will force redirect any http connection to https
-    #       };
-    #     };
+          nginx = {
+            # all hosts are merged into a single port
+            hosts =
+              gen:
+              gen.merge "0.0.0.0" "http://${self.local.boxA.dns."boxA.local.wg"}" {
+                "search.goobers.cloud" = 8080;
+                "redlib.goobers.cloud" = 8082;
+                "invidious.goobers.cloud" = 8083;
+                "goobers.cloud" = 8084;
+              };
 
-    #     dns = {
-    #       "vps1.pfcloud.wg" = "192.168.0.2";
-    #     };
-    #   };
-    # };
+            useTls = true; # this will force redirect any http connection to https
+          };
+        };
+
+        dns = {
+          "vps1.pfcloud.wg" = "192.168.0.2";
+        };
+      };
+    };
   };
 in
 self

@@ -2,6 +2,7 @@ keys:
   - &me age1kphj8r868k4rjje9l7ay7kmyf68a4ma8u7jhfmev52t3q78sra5qt3aaym
   - &box_a age1w0u09cyv74ddd9qwugpkg689tq2fca0egnjw6jx89rrn9e4x03es2j0jq6
   - &vps_24firede age183vkcx2zxwxg33twhtal6fkgd9tfnceq8hl88dv83vy58mtu8c2scyueks
+  - &vps_pfcloud age1xlqmh4t05pz7d54mhspjjmhy3wl6ujvfwvmlprucfpx5khp6w38sqpe349
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini|key|csr)$
     key_groups:
@@ -9,3 +10,4 @@ creation_rules:
           - *me
           - *box_a
           - *vps_24firede
+          - *vps_pfcloud
