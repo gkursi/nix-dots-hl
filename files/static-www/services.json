@@ -19,6 +19,12 @@
       "color": "aqua"
     },
     {
+      "name": "Sable",
+      "url": "https://sable.goobers.cloud/",
+      "description": "matrix client",
+      "color": "aqua"
+    },
+    {
       "name": "more soon :3",
       "description": "nothing here yet :3",
       "color": "gray",

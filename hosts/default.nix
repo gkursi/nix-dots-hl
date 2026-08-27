@@ -1,4 +1,14 @@
 let
+  serviceConfig = {
+    "search.goobers.cloud" = 8080;
+    "redlib.goobers.cloud" = 8082;
+    "invidious.goobers.cloud" = 8083;
+    "goobers.cloud" = 8084;
+    "sable.goobers.cloud" = 8085;
+  };
+
+  servicePorts = builtins.attrValues serviceConfig;
+
   self = {
     local = {
       boxA =
@@ -33,6 +43,8 @@ let
               host = "localhost";
             };
 
+            sable = { };
+
             wireguard =
               let
                 i2pPort = self.local.boxA.modules.i2p.port;
@@ -62,12 +74,9 @@ let
                 ];
 
                 tcpPorts = [
-                  8080
-                  8082
-                  8083
-                  8084
                   i2pPort
-                ];
+                ]
+                ++ servicePorts;
                 udpPorts = [ i2pPort ];
               };
 
@@ -87,15 +96,7 @@ let
 
             nginx = {
               # each host has its own port
-              hosts =
-                gen:
-                gen.upstream "192.168.0.1" {
-                  "search.goobers.cloud" = 8080;
-                  "redlib.goobers.cloud" = 8082;
-                  "invidious.goobers.cloud" = 8083;
-                  "goobers.cloud" = 8084;
-                };
-
+              hosts = gen: gen.upstream "192.168.0.1" serviceConfig;
               useTls = false;
             };
           };
@@ -188,24 +189,12 @@ let
               }
             ];
 
-            tcpPorts = [
-              8080
-              8082
-              8083
-              8084
-            ];
+            tcpPorts = servicePorts;
           };
 
           nginx = {
             # all hosts are merged into a single port
-            hosts =
-              gen:
-              gen.merge "0.0.0.0" "http://${self.local.boxA.dns."boxA.local.wg"}" {
-                "search.goobers.cloud" = 8080;
-                "redlib.goobers.cloud" = 8082;
-                "invidious.goobers.cloud" = 8083;
-                "goobers.cloud" = 8084;
-              };
+            hosts = gen: gen.merge "0.0.0.0" "http://${self.local.boxA.dns."boxA.local.wg"}" serviceConfig;
 
             useTls = true; # this will force redirect any http connection to https
           };
