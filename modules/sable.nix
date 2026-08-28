@@ -5,7 +5,7 @@ let
     {
       "productName": "Sable on goobers.cloud",
       "defaultHomeserver": 0,
-      "homeserverList": ["m.gayboi.club"],
+      "homeserverList": ["meower.fyi", "m.gayboi.club"],
       "allowCustomHomeservers": true,
       "elementCallUrl": null,
 
