@@ -1,9 +1,11 @@
 let
   serviceConfig = {
+    "goobers.cloud" = 8084;
+    "meower.fyi" = 8008;
+
     "search.goobers.cloud" = 8080;
     "redlib.goobers.cloud" = 8082;
     "invidious.goobers.cloud" = 8083;
-    "goobers.cloud" = 8084;
     "sable.goobers.cloud" = 8085;
   };
 
@@ -34,6 +36,10 @@ let
             };
 
             static-www = {
+              inherit drive;
+            };
+
+            continuwuity = {
               inherit drive;
             };
 
@@ -161,6 +167,36 @@ let
               destinationAddress = self.local.boxA.dns."boxA.local.wg";
               destinationPort = i2pPort;
             };
+
+          livekit = { };
+
+          nginx = {
+            hosts = gen: {
+              "livekit.meower.fyi" = {
+                forceSSL = true;
+                enableACME = true;
+
+                locations."~ ^/(sfu/get|healthz|get_token)" = {
+                  proxyPass = "http://127.0.0.1:8081";
+                  extraConfig = ''
+                    proxy_buffering off;
+                  '';
+                };
+
+                locations."/" = {
+                  proxyPass = "http://127.0.0.1:7880";
+                  extraConfig = ''
+                    proxy_buffering off;
+                    proxy_http_version 1.1;
+                    proxy_set_header Upgrade $http_upgrade;
+                    proxy_set_header Connection $connection_upgrade;
+                  '';
+                };
+              };
+            };
+
+            useTls = true;
+          };
         };
       };
     };

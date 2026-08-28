@@ -51,6 +51,13 @@ in
     recommendedProxySettings = true;
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
+
+    appendHttpConfig = ''
+      map $http_upgrade $connection_upgrade {
+          default upgrade;
+          \'\'      close;
+      }
+    '';
   };
 
   networking.firewall.allowedTCPPorts = [
