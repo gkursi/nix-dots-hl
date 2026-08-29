@@ -1,4 +1,4 @@
 host:
   map
     (module: import ./${module}.nix host.modules.${module})
-    (builtins.attrNames host.modules)
+    (builtins.attrNames (host.modules or {}))

@@ -7,6 +7,7 @@ let
     "redlib.goobers.cloud" = 8082;
     "invidious.goobers.cloud" = 8083;
     "sable.goobers.cloud" = 8085;
+    "ntfy.goobers.cloud" = 8086;
   };
 
   servicePorts = builtins.attrValues serviceConfig;
@@ -50,6 +51,10 @@ let
             };
 
             sable = { };
+
+            ntfy = {
+              inherit drive;
+            };
 
             wireguard =
               let
@@ -114,8 +119,12 @@ let
           drives = {
             primary = "/mnt/container";
           };
-          tags = [ "private" ];
         };
+
+      boxB = {
+        target = "192.168.8.55";
+        desiredIp = "192.168.8.200";
+      };
     };
 
     de24fire = {

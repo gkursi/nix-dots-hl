@@ -32,7 +32,7 @@ in
             server=meower.fyi:443
           }
         '';
-        CONTINUWUITY_MATRIX_RTC__FOCI = ''[{ type = "livekit", livekit_service_url = "https://livekit.example.com" }]'';
+        CONTINUWUITY_MATRIX_RTC__FOCI = ''[{ type = "livekit", livekit_service_url = "https://livekit.meower.fyi" }]'';
       };
     };
   };

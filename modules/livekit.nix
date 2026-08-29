@@ -11,7 +11,7 @@ machine:
 
   sops.templates."livekit.env".content = ''
     LIVEKIT_JWT_BIND=:8081
-    LIVEKIT_URL=wss://livekit.example.com
+    LIVEKIT_URL=wss://livekit.meower.fyi
     LIVEKIT_FULL_ACCESS_HOMESERVERS=meower.fyi
     LIVEKIT_KEY=${config.sops.placeholder.livekit-key}
     LIVEKIT_SECRET=${config.sops.placeholder.livekit-secret}
@@ -35,7 +35,11 @@ machine:
       auto_create: false
   '';
 
-  networking.firewall.allowedTCPPorts = [ 7881 ];
+  networking.firewall.allowedTCPPorts = [
+    7881
+    8081
+  ];
+
   networking.firewall.allowedUDPPortRanges = [
     {
       from = 50100;
@@ -54,6 +58,10 @@ machine:
     services.livekit.service = {
       image = "livekit/livekit-server:latest";
       restart = "unless-stopped";
+      command = [
+        "--config"
+        "/etc/livekit.yaml"
+      ];
       ports = [
         "127.0.0.1:7880:7880/tcp"
         "7881:7881/tcp"

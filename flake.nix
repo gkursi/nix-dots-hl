@@ -55,8 +55,8 @@
           acc
           // nixpkgs.lib.genAttrs (builtins.attrNames scopes.${scope}) (hostname: {
             deployment.targetHost = scopes.${scope}.${hostname}.target;
-            deployment.tags = scopes.${scope}.${hostname}.tags or [ ];
-            deployment.buildOnTarget = true;
+            deployment.tags = (scopes.${scope}.${hostname}.tags or [ ]) ++ [ "scope-${scope}" ];
+#            deployment.buildOnTarget = true;
             imports = mkHostModules scope hostname;
           })
         ) { } (builtins.attrNames scopes)
