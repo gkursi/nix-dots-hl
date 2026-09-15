@@ -41,4 +41,6 @@ in
       upsmon = "primary";
     };
   };
+
+  networking.firewall.allowedTCPPorts = [ 3493 ];
 }

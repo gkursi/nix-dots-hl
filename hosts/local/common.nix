@@ -5,7 +5,7 @@ machine:
   networking.useDHCP = false;
 
   systemd.network.enable = true;
-  systemd.network.networks."common-network" = {
+  systemd.network.networks."10-common-network" = {
     address = [
       "${machine.desiredIp or machine.target}/24"
     ];

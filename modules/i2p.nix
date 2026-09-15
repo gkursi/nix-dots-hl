@@ -18,7 +18,7 @@ i2pConfig:
       address = "0.0.0.0";
     };
 
-    address = i2pConfig.external;
+    # address = i2pConfig.external;
     ifname4 = i2pConfig.interface;
 
     inTunnels = builtins.mapAttrs (host: cfg: {
