@@ -12,6 +12,10 @@ let
 
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString port}";
+
+      extraConfig = ''
+        proxy_set_header X-Forwarded-Proto https;
+      '';
     };
   };
 
@@ -57,6 +61,7 @@ in
           default upgrade;
           \'\'      close;
       }
+      log_format hostdbg '[$host] [$http_host] [$http_x_forwarded_host]';
     '';
   };
 

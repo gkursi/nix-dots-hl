@@ -11,11 +11,11 @@ let
   };
 
   serviceConfigB = {
-
+    "git.goobers.cloud" = 8087;
   };
 
   servicePortsA = builtins.attrValues serviceConfigA;
-  servicePortsB = builtins.attrValues serviceConfigB;
+  servicePortsB = [ 8088 ] ++ builtins.attrValues serviceConfigB;
 
   self = {
     local =
@@ -53,7 +53,7 @@ let
                 inherit drive;
               };
 
-              redlib = { };
+              # redlib = { };
 
               invidious = {
                 inherit drive;
@@ -147,16 +147,59 @@ let
 
                 peers = peers;
 
-                tcpPorts = [
+                tcpPorts = servicePortsB ++ [
                   i2pPort
-                ]
-                ++ servicePortsB;
+                  25565
+                ];
               };
 
+            forgejo = {
+              drive = self.local.boxB.drives.primary;
+            };
+
+            # mastodon = {
+            #   drive = self.local.boxB.drives.primary;
+            # };
+
             nginx = {
-              # each host has its own port
-              hosts = gen: gen.upstream "192.168.0.1" serviceConfigA;
-              useTls = false;
+              hosts = gen: gen.upstream "192.168.0.4" serviceConfigB;
+            # // {
+                # "gullible.fyi" = {
+                  # listen = [
+                    # {
+                      # addr = "192.168.0.4";
+                      # port = 8088;
+                      # ssl = false;
+                    # }
+                  # ];
+#
+                  # locations."/api/v1/streaming" = {
+                    # proxyPass = "http://localhost:8089";
+                    # proxyWebsockets = true;
+                  # };
+#
+                  # locations."/" = {
+                    # proxyPass = "http://localhost:8088";
+#
+                    # just kill me already
+                    # extraConfig = ''
+                      # proxy_set_header Host gullible.fyi;
+                      # proxy_set_header X-Forwarded-Proto https;
+                    # '';
+
+                    #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                    #proxy_set_header X-Forwarded-Host gullible.fyi;
+                  # };
+                # };
+              # };
+#
+              # useTls = false;
+            };
+
+            genericJava = {
+              drive = "${self.local.boxB.drives.primary}/fabric";
+              runCommand = [ "./run.sh" "-nogui" ];
+              ports = [ "192.168.0.4:25565:25565" ];
             };
           };
 
@@ -285,22 +328,48 @@ let
               }
             ];
 
-            tcpPorts = servicePortsA ++ servicePortsB;
+            tcpPorts = servicePortsA ++ servicePortsB ++ [ 25565 ];
           };
 
           nginx = {
-            # all hosts are merged into a single port
             hosts = gen:
               (gen.merge "0.0.0.0" "http://${self.local.boxA.dns."boxA.local.wg"}" serviceConfigA)
-              // (gen.merge "0.0.0.0" "http://${self.local.boxB.dns."boxB.local.wg"}" serviceConfigB);
+              // (gen.merge "0.0.0.0" "http://${self.local.boxB.dns."boxB.local.wg"}" serviceConfigB)
+              // {
+                "gullible.fyi" = {
+                  enableACME = true;
+                  forceSSL = true;
+
+                  locations."/" = {
+                    proxyPass = "http://192.168.0.4:8088";
+                    proxyWebsockets = true;
+                  };
+                };
+              };
 
             useTls = true; # this will force redirect any http connection to https
           };
+
+          velocity = {};
         };
 
         dns = {
           "vps1.pfcloud.wg" = "192.168.0.2";
         };
+      };
+    };
+
+    delska = {
+      boxC = {
+        internalMac = "02:00:0a:02:f3:01";
+        internalIp4 = "10.2.243.1";
+        externalMac = "02:00:b9:db:9f:40";
+        externalIp4 = "185.219.159.64";
+        gateway4 = "185.219.159.1";
+
+        target = "185.219.159.64";
+
+        modules = {};
       };
     };
   };
