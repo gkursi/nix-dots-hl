@@ -1,20 +1,19 @@
-nat: { ... }:
+{
+  sourceInterface,
+  sourcePort,
+  destinationAddress,
+  destinationPort,
+  destinationInterface,
+}:
+{ ... }:
 let
-
-  srcInterface = nat.sourceInterface;
-  sourcePort = nat.sourcePort;
-
-  dstAddress = nat.destinationAddress;
-  dstPort = nat.destinationPort;
-  dstInterface = nat.destinationInterface;
-
-  destination = "${dstAddress}:${toString dstPort}";
+  destination = "${destinationAddress}:${toString destinationPort}";
 in
 {
   networking.nat = {
     enable = true;
-    internalInterfaces = [ srcInterface ];
-    externalInterface = dstInterface;
+    internalInterfaces = [ sourceInterface ];
+    externalInterface = destinationInterface;
 
     forwardPorts = [
       { inherit sourcePort destination; proto = "tcp"; }
@@ -22,6 +21,6 @@ in
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [ sourcePort dstPort ];
-  networking.firewall.allowedUDPPorts = [ sourcePort dstPort ];
+  networking.firewall.allowedTCPPorts = [ sourcePort destinationPort ];
+  networking.firewall.allowedUDPPorts = [ sourcePort destinationPort ];
 }

@@ -1,4 +1,7 @@
-nginxConfig:
+{
+  hosts,
+  useTls ? false,
+}:
 { ... }:
 let
   proxyLocalPort = bind: port: {
@@ -22,7 +25,7 @@ let
   proxyToPort =
     srcAddr: dstAddr: dstPort:
     let
-      enableTls = nginxConfig.useTls or false;
+      enableTls = useTls;
     in
     {
       forceSSL = enableTls;
@@ -47,7 +50,7 @@ in
   services.nginx = {
     enable = true;
 
-    virtualHosts = nginxConfig.hosts {
+    virtualHosts = hosts {
       upstream = mkUpstreamProxy;
       merge = mkMergeProxy;
     };

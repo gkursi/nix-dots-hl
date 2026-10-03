@@ -33,7 +33,7 @@
       mkHostModules =
         scope: hostname:
         [
-          (import ./hosts/common.nix scopes.${scope}.${hostname})
+          (import ./hosts/common.nix (scopes.${scope}.${hostname} // { inherit hostname; }))
           (import ./hosts/${scope}/common.nix scopes.${scope}.${hostname})
           ./hosts/${scope}/${hostname}/hardware-configuration.nix
           ./hosts/${scope}/${hostname}/configuration.nix

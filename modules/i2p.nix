@@ -1,11 +1,15 @@
-i2pConfig:
+{
+  port,
+  interface,
+  tunnels,
+}:
 { config, pkgs, ... }: {
   services.i2pd = {
+    inherit port;
     enable = true;
     bandwidth = 16;
     enableIPv6 = true;
     family = "goobers-cloud";
-    port = i2pConfig.port;
 
     proto.http = {
       enable = true;
@@ -19,7 +23,7 @@ i2pConfig:
     };
 
     # address = i2pConfig.external;
-    ifname4 = i2pConfig.interface;
+    ifname4 = interface;
 
     inTunnels = builtins.mapAttrs (host: cfg: {
       keys = "${host}-keys.dat";
@@ -28,17 +32,17 @@ i2pConfig:
       # nginx by default only proxies http, so other service types would break anyways
       type = cfg.type;
       address = cfg.address;
-    }) i2pConfig.tunnels;
+    }) tunnels;
   };
 
   networking.firewall.allowedTCPPorts = [
     7070
     4444
-    i2pConfig.port
+    port
   ];
 
   networking.firewall.allowedUDPPorts = [
-    i2pConfig.port
+    port
   ];
 
   # we love the nixpkgs maintainers

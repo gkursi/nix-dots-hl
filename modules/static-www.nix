@@ -1,4 +1,4 @@
-machine:
+{ ... }:
 { ... }:
 {
   virtualisation.arion.projects.www.settings = {

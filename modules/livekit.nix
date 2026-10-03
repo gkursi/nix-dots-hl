@@ -1,4 +1,4 @@
-machine:
+{ ... }:
 { config, ... }:
 {
   sops.secrets.livekit-key = {

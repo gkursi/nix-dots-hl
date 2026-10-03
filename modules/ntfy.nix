@@ -1,8 +1,7 @@
-ntfy:
+{ drive }:
 { pkgs, ... }:
 let
   cfg = pkgs.writeText "config.yml" "";
-  drive = ntfy.drive;
 in
 {
   virtualisation.arion.projects.ntfy.settings = {

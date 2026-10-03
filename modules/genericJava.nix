@@ -1,10 +1,10 @@
-java:
+{
+  drive,
+  jar,
+  runCommand ? [ "java" "-jar" jar ],
+  ports ? [],
+}:
 { ... }:
-let
-  drive = java.drive;
-  runCommand = java.runCommand or [ "java" "-jar" java.jar];
-  ports = java.ports or [];
-in
 {
   virtualisation.arion.projects.java.settings = {
     services.server.service = {

@@ -19,7 +19,6 @@ in
 {
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/disk/by-id/ata-SAMSUNG_SSD_PM871a_2.5_7mm_256GB_S2XNNX0J106257";
-  networking.hostName = "kitty";
   system.stateVersion = "25.05";
 
   systemd.network.networks."10-common-network" = {

@@ -15,7 +15,5 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
-  networking.hostName = "wiregurarder"; # Define your hostname.
-
   system.stateVersion = "25.05";
 }

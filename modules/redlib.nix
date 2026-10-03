@@ -1,4 +1,4 @@
-machine: { ... }: {
+{ ... }: { ... }: {
   virtualisation.arion.projects.redlib.settings = {
     services.redlib.service = {
       image = "ghcr.io/evrial/redlib:latest";

@@ -1,7 +1,14 @@
-wireguardConfig:
+{
+  tcpPorts ? [],
+  udpPorts ? [],
+  address,
+  privateKey,
+  peers,
+  ...
+}:
 { config, ... }:
 {
-  sops.secrets.${wireguardConfig.privateKey} = {
+  sops.secrets.${privateKey} = {
     sopsFile = ../secrets/wireguard.yaml;
     mode = "640";
     owner = "systemd-network";
@@ -12,8 +19,8 @@ wireguardConfig:
   networking.useNetworkd = true;
 
   networking.firewall.interfaces."wg0" = {
-    allowedTCPPorts = wireguardConfig.tcpPorts or [ ];
-    allowedUDPPorts = wireguardConfig.udpPorts or [ ];
+    allowedTCPPorts = tcpPorts;
+    allowedUDPPorts = udpPorts;
   };
 
   systemd.network = {
@@ -21,7 +28,7 @@ wireguardConfig:
 
     networks."50-wg0" = {
       matchConfig.Name = "wg0";
-      address = wireguardConfig.address;
+      address = address;
     };
 
     netdevs."50-wg0" = {
@@ -34,7 +41,7 @@ wireguardConfig:
       wireguardConfig = {
         ListenPort = 51820;
 
-        PrivateKeyFile = config.sops.secrets.${wireguardConfig.privateKey}.path;
+        PrivateKeyFile = config.sops.secrets.${privateKey}.path;
 
         # To automatically create routes for everything in AllowedIPs
         RouteTable = "main";
@@ -48,7 +55,7 @@ wireguardConfig:
         }
         // (if peer.keepalive or false then { PersistentKeepalive = 20; } else { })
         // (if peer.address or null != null then { Endpoint = "${peer.address}:51820"; } else { })
-      ) wireguardConfig.peers;
+      ) peers;
     };
   };
 }

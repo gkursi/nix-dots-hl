@@ -19,6 +19,7 @@ machine:
   };
 
   users.users.root.extraGroups = [ "podman" ];
+  networking.hostName = machine.hostname;
 
   # iperf3
   services.iperf3 = {

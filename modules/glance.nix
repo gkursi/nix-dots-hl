@@ -1,4 +1,4 @@
-glance:
+{ drive }:
 { pkgs, ... }:
 let
   config = pkgs.writeText "glance-config.yml" ''
@@ -76,7 +76,7 @@ in
       restart = "unless-stopped";
       ports = [ "8081:8080" ];
       volumes = [
-        "${glance.drive}/glance:/app/config"
+        "${drive}/glance:/app/config"
         "${config}:/app/config/glance.yml:ro"
       ];
 

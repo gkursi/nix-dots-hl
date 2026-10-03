@@ -11,7 +11,6 @@
     fsType = "ext4";
   };
 
-  networking.hostName = "box-A";
 
   systemd.network.networks."10-common-network" = {
     matchConfig.Name = "eno1";

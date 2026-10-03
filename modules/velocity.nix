@@ -1,4 +1,4 @@
-java:
+{ ... }:
 { ... }:
 {
   virtualisation.arion.projects.velocity.settings = {

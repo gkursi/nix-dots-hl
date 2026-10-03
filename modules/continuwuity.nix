@@ -1,8 +1,6 @@
-matrixConfig:
+{ drive }:
 { pkgs, ... }:
 let
-  drive = matrixConfig.drive;
-
   resolve = pkgs.writeText "resolv.conf" ''
     nameserver 1.0.0.1
     nameserver 1.1.1.1

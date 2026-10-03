@@ -1,4 +1,4 @@
-cfg:
+{ host }:
 { pkgs, ... }:
 let
   passwd = pkgs.writeText "ups-passwd.txt" "meow";
@@ -7,7 +7,7 @@ in
   power.ups = {
     upsmon = {
       monitor."UPS-1" = {
-        system = "UPS-1@${cfg.host}";
+        system = "UPS-1@${host}";
         powerValue = 1;
         user = "admin";
         passwordFile = "${passwd}";

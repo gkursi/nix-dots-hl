@@ -1,4 +1,4 @@
-pihole:
+{ drive }:
 { config, ... }:
 let
   password = config.sops.secrets.pihole_admin_password.path;
@@ -27,7 +27,7 @@ in
       ];
 
       volumes = [
-        "${pihole.drive}/pihole:/etc/pihole"
+        "${drive}/pihole:/etc/pihole"
         "${password}:/run/pihole/secret"
       ];
 

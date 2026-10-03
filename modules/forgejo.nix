@@ -1,9 +1,5 @@
-forgejoConfig:
+{ drive }:
 { ... }:
-let
-  drive = forgejoConfig.drive;
-
-in
 {
   virtualisation.arion.projects.forgejo.settings = {
     services.forgejo.service = {

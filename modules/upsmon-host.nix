@@ -1,4 +1,5 @@
-machine: { pkgs, ... }:
+{ ... }:
+{ pkgs, ... }:
 let
   passwd = pkgs.writeText "ups-passwd.txt" "meow";
 in

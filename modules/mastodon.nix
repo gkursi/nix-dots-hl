@@ -1,8 +1,5 @@
-mastodon:
+{ drive }:
 { config, ... }:
-let
-  drive = mastodon.drive;
-in
 {
   sops.secrets.forgejo_base = {
     sopsFile = ../secrets/forgejo.yaml;

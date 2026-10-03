@@ -1,4 +1,4 @@
-inv:
+{ drive }:
 { config, ... }:
 let
   secret_file = ../secrets/invidious.yaml;
@@ -60,7 +60,7 @@ in
       hostStoreAsReadOnly = true;
 
       volumes = [
-        "${inv.drive}/cache:/var/tmp/youtubei.js:rw"
+        "${drive}/cache:/var/tmp/youtubei.js:rw"
       ];
     };
 
@@ -69,9 +69,9 @@ in
       restart = "unless-stopped";
 
       volumes = [
-        "${inv.drive}/iv/postgres:/var/lib/postgresql/data"
-        "${inv.drive}/iv/config/sql:/config/sql"
-        "${inv.drive}/iv/docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh"
+        "${drive}/iv/postgres:/var/lib/postgresql/data"
+        "${drive}/iv/config/sql:/config/sql"
+        "${drive}/iv/docker/init-invidious-db.sh:/docker-entrypoint-initdb.d/init-invidious-db.sh"
       ];
 
       environment = {

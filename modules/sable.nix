@@ -1,4 +1,4 @@
-sableConfig:
+{ ... }:
 { pkgs, ... }:
 let
   config = pkgs.writeText "sable-config" ''
