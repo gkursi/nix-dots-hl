@@ -24,13 +24,9 @@ let
 
   proxyToPort =
     srcAddr: dstAddr: dstPort:
-    let
-      enableTls = useTls;
-    in
     {
-      forceSSL = enableTls;
-      enableACME = enableTls;
-      # kTLS = enableTls;
+      forceSSL = useTls;
+      enableACME = useTls;
 
       listenAddresses = [ srcAddr ];
 
@@ -39,12 +35,29 @@ let
       };
     };
 
+  createStatic = type: file: name: {
+    forceSSL = useTls;
+    enableACME = useTls;
+
+    locations."/" = {
+      extraConfig = ''
+        root ${file};
+        try_files /${name} =404;
+        default_type ${type};
+      '';
+    };
+  };
+
+
   # for each hostname, proxies requests on the incoming port to the given local port
   mkUpstreamProxy =
     address: hosts: builtins.mapAttrs (hostname: port: proxyLocalPort address port) hosts;
   mkMergeProxy =
     srcAddress: dstAddress: hosts:
     builtins.mapAttrs (hostname: port: proxyToPort srcAddress dstAddress port) hosts;
+  mkStatic = name: type: content: fn: {
+    ${name} = createStatic type content fn;
+  };
 in
 {
   services.nginx = {
@@ -53,6 +66,7 @@ in
     virtualHosts = hosts {
       upstream = mkUpstreamProxy;
       merge = mkMergeProxy;
+      static = mkStatic;
     };
 
     recommendedProxySettings = true;

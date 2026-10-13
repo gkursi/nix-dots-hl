@@ -46,10 +46,6 @@ in
           inherit drive;
         };
 
-        static-www = {
-          inherit drive;
-        };
-
         continuwuity = {
           inherit drive;
         };
@@ -75,6 +71,10 @@ in
           ];
         };
 
+        sharkey = {
+          inherit drive;
+        };
+
         wireguard =
           let
             i2pPort = self.local.mrrow.modules.i2p.port;
@@ -88,9 +88,7 @@ in
               "${self.local.mrrow.dns."mrrow.local.wg"}/32"
             ];
 
-            tcpPorts = config.servicePortsA ++ [
-              i2pPort
-            ];
+            tcpPorts = config.servicePortsA ++ [ i2pPort ];
             udpPorts = [ i2pPort ];
           };
 
@@ -152,9 +150,9 @@ in
         drive = self.local.mrrrow.drives.primary;
       };
 
-      # mastodon = {
-      #   drive = self.local.mrrrow.drives.primary;
-      # };
+      api = {
+        drive = self.local.mrrrow.drives.primary;
+      };
 
       nginx = {
         hosts = gen: gen.upstream "192.168.0.4" config.serviceConfigB;

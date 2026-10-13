@@ -33,17 +33,8 @@
         hosts = gen:
           (gen.merge "0.0.0.0" "http://${self.local.mrrow.dns."mrrow.local.wg"}" config.serviceConfigA)
           // (gen.merge "0.0.0.0" "http://${self.local.mrrrow.dns."mrrrow.local.wg"}" config.serviceConfigB)
-          // {
-            "gullible.fyi" = {
-              enableACME = true;
-              forceSSL = true;
-
-              locations."/" = {
-                proxyPass = "http://192.168.0.4:8088";
-                proxyWebsockets = true;
-              };
-            };
-          };
+          // (gen.static "goobers.cloud" "text" "${../../files/static-www}" "cloud-index")
+          // (gen.static "qweru.xyz" "text/html" "${../../files/static-www}" "qweru.xyz.html");
 
         useTls = true; # this will force redirect any http connection to https
       };

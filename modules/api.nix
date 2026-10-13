@@ -1,18 +1,28 @@
-{ ... }:
+{ drive }:
 { ... }:
 {
   virtualisation.arion.projects.api.settings = {
-    services.server-fwd.service = {
-      image = "alpine/socat"; # budget velocity
-      command = "TCP-LISTEN:25565,fork,reuseaddr TCP:192.168.0.4:25565";
-      ports = [ "25565:25565" ];
+    services.api.service = {
+      image = "debian:bookworm-slim";
+
+      volumes = [
+        "${drive}/api:/app"
+      ];
+
+      entrypoint = "/app/run";
+      command = [ ];
+      working_dir = "/app";
+
+      ports = [
+        "127.0.0.1:8090:8080"
+        "192.168.8.40:3000:8081"
+      ];
+
       restart = "unless-stopped";
-      tty = true;
     };
   };
 
   networking.firewall.allowedTCPPorts = [
-    25565
-    222
+    3000
   ];
 }

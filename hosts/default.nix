@@ -1,18 +1,18 @@
 let
   config = let
     serviceConfigA = {
-      "goobers.cloud" = 8084;
       "meower.fyi" = 8008;
-
       "search.goobers.cloud" = 8080;
       "redlib.goobers.cloud" = 8082;
       "invidious.goobers.cloud" = 8083;
       "sable.goobers.cloud" = 8085;
       "ntfy.goobers.cloud" = 8086;
+      "gullible.fyi" = 8089;
     };
 
     serviceConfigB = {
       "git.goobers.cloud" = 8087;
+      "api.goobers.cloud" = 8090;
     };
   in {
     inherit serviceConfigA serviceConfigB;

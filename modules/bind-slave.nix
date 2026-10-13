@@ -9,7 +9,7 @@
   };
 
   system.activationScripts.chown-bind-slave = {
-    deps = [ "sops-install-secrets" ];
+    # deps = [ "sops-install-secrets" ];
     text = ''
       chown 1000:1000 ${config.sops.templates."bind-master-named.conf".path}
     '';

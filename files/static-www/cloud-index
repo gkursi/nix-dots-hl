@@ -1,0 +1,25 @@
+- goobers.cloud
+|
+|    various services hosted by https://qweru.xyz
+|
+- index
+|    search.goobers.cloud     ~ searxng instance (metasearch engine)
+|    redlib.goobers.cloud     ~ redlib instance (private reddit frontend)
+|        !! currently down as reddit keeps blacklisting me
+|    invidious.goobers.cloud  ~ invidous instance (private youtube frontend)
+|    git.goobers.cloud        ~ forgejo instance (git)
+|    sable.goobers.cloud      ~ sable instance (matrix client)
+|    ntfy.goobers.cloud       ~ ntfy instance
+|    ns1.goobers.cloud        ~ nameserver
+|    ns2.goobers.cloud        ~ nameserver
+|
+|    meower.fyi               ~ continuwuity instance (matrix server)
+|    gullible.fyi             ~ sharkey (fediverse) instance
+- contact
+|    matrix  ~ @qweru:meower.fyi
+|    fedi    ~ @qweru@gullible.fyi
+|    mail    ~ itsqweru@proton.me
+- source
+|    https://git.goobers.cloud/qweru/nix-dots-hl
+|    or
+|    https://github.com/gkursi/nix-dots-hl

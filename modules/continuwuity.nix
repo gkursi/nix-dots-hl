@@ -8,6 +8,7 @@ let
 in
 {
   virtualisation.arion.projects.continuwuity.settings = {
+    services.homeserver.out.service.pull_policy = "always";
     services.homeserver.service = {
       image = "forgejo.ellis.link/continuwuation/continuwuity:latest";
       command = "";

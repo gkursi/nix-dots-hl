@@ -1,6 +1,6 @@
 {
   drive,
-  jar,
+  jar ? "jar.jar",
   runCommand ? [ "java" "-jar" jar ],
   ports ? [],
 }:
