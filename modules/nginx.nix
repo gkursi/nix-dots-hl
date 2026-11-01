@@ -35,13 +35,13 @@ let
       };
     };
 
-  createStatic = type: file: name: {
+  createStatic = type: file: name: t: {
     forceSSL = useTls;
     enableACME = useTls;
 
     locations."/" = {
       extraConfig = ''
-        root ${file};
+        root ${file}; # ${t}
         try_files /${name} =404;
         default_type ${type};
       '';
@@ -55,8 +55,8 @@ let
   mkMergeProxy =
     srcAddress: dstAddress: hosts:
     builtins.mapAttrs (hostname: port: proxyToPort srcAddress dstAddress port) hosts;
-  mkStatic = name: type: content: fn: {
-    ${name} = createStatic type content fn;
+  mkStatic = name: type: content: fn: t: {
+    ${name} = createStatic type content fn t;
   };
 in
 {

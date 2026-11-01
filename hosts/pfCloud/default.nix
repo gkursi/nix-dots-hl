@@ -33,8 +33,20 @@
         hosts = gen:
           (gen.merge "0.0.0.0" "http://${self.local.mrrow.dns."mrrow.local.wg"}" config.serviceConfigA)
           // (gen.merge "0.0.0.0" "http://${self.local.mrrrow.dns."mrrrow.local.wg"}" config.serviceConfigB)
-          // (gen.static "goobers.cloud" "text" "${../../files/static-www}" "cloud-index")
-          // (gen.static "qweru.xyz" "text/html" "${../../files/static-www}" "qweru.xyz.html");
+          // (gen.static "goobers.cloud" "text" "${../../files/static-www}" "cloud-index" "${../../files/static-www/cloud-index}")
+          // (let h = (gen.static "qweru.xyz" "text/html" "${../../files/static-www}" "index.html" "${../../files/static-www/index.html}"); in {
+            "qweru.xyz" = h."qweru.xyz" // {
+              locations."/" = h."qweru.xyz".locations."/";
+
+              locations."/img" = {
+                extraConfig = ''
+                  root ${../../files/static-www};
+                  autoindex on;
+                  default_type "image/png";
+                '';
+              };
+            };
+          });
 
         useTls = true; # this will force redirect any http connection to https
       };
